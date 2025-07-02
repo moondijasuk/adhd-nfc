@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ADHD 실행 피드백</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", sans-serif;
+      background-color: #fefefe;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: 1.4rem;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .emotion-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+      gap: 1rem;
+      width: 100%;
+      max-width: 400px;
+      margin-bottom: 2rem;
+    }
+
+    .emotion-btn {
+      font-size: 1.2rem;
+      padding: 0.7rem 1rem;
+      background-color: #eee;
+      border: none;
+      border-radius: 1rem;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .emotion-btn:hover {
+      background-color: #ddd;
+    }
+
+    .card {
+      display: none;
+      background-color: #ffffff;
+      padding: 2rem;
+      border-radius: 1.5rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      max-width: 350px;
+      text-align: center;
+    }
+
+    .card h2 {
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .card p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    .reset-btn {
+      margin-top: 2rem;
+      background-color: #e0e0e0;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 1rem;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .reset-btn:hover {
+      background-color: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <h1>오늘 당신의 감정은 어떤가요?</h1>
+  <div class="emotion-grid" id="emotionGrid">
+    <button class="emotion-btn" data-emotion="무기력">😐 무기력</button>
+    <button class="emotion-btn" data-emotion="불안">😣 불안</button>
+    <button class="emotion-btn" data-emotion="짜증">😡 짜증</button>
+    <button class="emotion-btn" data-emotion="평온">😊 평온</button>
+    <button class="emotion-btn" data-emotion="들뜸">🤩 들뜸</button>
+    <button class="emotion-btn" data-emotion="피곤함">💤 피곤함</button>
+  </div>
+
+  <div class="card" id="feedbackCard">
+    <h2 id="cardTitle"></h2>
+    <p id="cardMessage"></p>
+    <button class="reset-btn" onclick="resetPage()">다시 선택하기</button>
+  </div>
+
+  <script>
+    const messages = {
+      "무기력": "그래도 해냈다는 게 대단해요. 당신은 움직였어요.",
+      "불안": "불안 속에서도 한 걸음, 당신은 용감해요.",
+      "짜증": "짜증을 이기고 실행한 당신, 진짜 강해요.",
+      "평온": "이 평온함, 앞으로의 하루에도 이어지길 바라요.",
+      "들뜸": "들뜬 마음을 실행으로 연결하다니, 멋져요!",
+      "피곤함": "피곤한데도 해낸 당신, 충분히 자랑스러워요."
+    };
+
+    const emotionButtons = document.querySelectorAll(".emotion-btn");
+    const card = document.getElementById("feedbackCard");
+    const grid = document.getElementById("emotionGrid");
+    const cardTitle = document.getElementById("cardTitle");
+    const cardMessage = document.getElementById("cardMessage");
+
+    emotionButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        const emotion = button.dataset.emotion;
+        cardTitle.innerText = `${emotion} 상태에서 실행 완료!`;
+        cardMessage.innerText = messages[emotion];
+        grid.style.display = "none";
+        card.style.display = "block";
+      });
+    });
+
+    function resetPage() {
+      card.style.display = "none";
+      grid.style.display = "grid";
+    }
+  </script>
+</body>
+</html>
