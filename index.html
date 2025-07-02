@@ -143,6 +143,14 @@
       actionGrid.style.display = "grid";
     }
 
+    function getLevel(xp) {
+      if (xp >= 300) return { level: 5, badge: "🦄 전설" };
+      if (xp >= 200) return { level: 4, badge: "🔥 불꽃" };
+      if (xp >= 100) return { level: 3, badge: "🌳 나무" };
+      if (xp >= 50)  return { level: 2, badge: "🌿 성장" };
+      return { level: 1, badge: "🌱 새싹" };
+    }
+
     function showFeedback(emotion, action) {
       if (localStorage.getItem("lastActionDate") === today) return; // 중복 실행 방지
       pageTitle.innerText = `피드백 메시지`;
@@ -150,9 +158,10 @@
       const currentXP = getXP() + XP_PER_ACTION;
       localStorage.setItem("userXP", currentXP);
       localStorage.setItem("lastActionDate", today);
+      const result = getLevel(currentXP);
       cardTitle.innerText = `\"${action}\" 완료!`;
       cardMessage.innerText = feedbackMessages[emotion];
-      xpBar.innerText = `🎉 누적 XP: ${currentXP}`;
+      xpBar.innerText = `🎉 누적 XP: ${currentXP} | 레벨 ${result.level} ${result.badge}`;
       feedbackCard.style.display = "block";
     }
 
@@ -161,7 +170,7 @@
     }
 
     function goToPlanner() {
-      alert("플래너로 돌아갈까요?");
+      alert("플래너로 돌아가서 계획 세워볼까요?");
       // location.href = "플래너 페이지 링크"; // 실제 URL로 변경 가능
     }
   </script>
