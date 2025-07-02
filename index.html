@@ -66,7 +66,7 @@
   </style>
 </head>
 <body>
-  <h1>오늘 당신의 감정은 어떤가요?</h1>
+  <h1 id="pageTitle">오늘 당신의 감정은 어떤가요?</h1>
   <div class="emotion-grid" id="emotionGrid">
     <button data-emotion="무기력">😐 무기력</button>
     <button data-emotion="불안">😣 불안</button>
@@ -107,6 +107,7 @@
     const XP_PER_ACTION = 10;
     let selectedEmotion = "";
 
+    const pageTitle = document.getElementById("pageTitle");
     const emotionGrid = document.getElementById("emotionGrid");
     const actionGrid = document.getElementById("actionGrid");
     const feedbackCard = document.getElementById("feedbackCard");
@@ -122,6 +123,7 @@
     });
 
     function showActionCards(emotion) {
+      pageTitle.innerText = `\"${emotion}\" 상태에서 해볼 수 있는 행동은?`;
       emotionGrid.style.display = "none";
       actionGrid.innerHTML = "";
       actionCards[emotion].forEach(action => {
@@ -134,10 +136,11 @@
     }
 
     function showFeedback(emotion, action) {
+      pageTitle.innerText = `피드백 메시지`;
       actionGrid.style.display = "none";
       const currentXP = getXP() + XP_PER_ACTION;
       localStorage.setItem("userXP", currentXP);
-      cardTitle.innerText = `"${action}" 완료!`;
+      cardTitle.innerText = `\"${action}\" 완료!`;
       cardMessage.innerText = feedbackMessages[emotion];
       xpBar.innerText = `🎉 누적 XP: ${currentXP}`;
       feedbackCard.style.display = "block";
@@ -148,6 +151,7 @@
     }
 
     function resetAll() {
+      pageTitle.innerText = "오늘 당신의 감정은 어떤가요?";
       feedbackCard.style.display = "none";
       emotionGrid.style.display = "grid";
       actionGrid.style.display = "none";
