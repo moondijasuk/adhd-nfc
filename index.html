@@ -115,6 +115,14 @@
     const cardMessage = document.getElementById("cardMessage");
     const xpBar = document.getElementById("xpBar");
 
+    const today = new Date().toDateString();
+    const lastAction = localStorage.getItem("lastActionDate");
+
+    if (today === lastAction) {
+      pageTitle.innerText = "오늘은 이미 실행을 완료했어요! 내일 또 와줘요 😊";
+      emotionGrid.style.display = "none";
+    }
+
     document.querySelectorAll("#emotionGrid button").forEach(button => {
       button.addEventListener("click", () => {
         selectedEmotion = button.dataset.emotion;
@@ -140,6 +148,7 @@
       actionGrid.style.display = "none";
       const currentXP = getXP() + XP_PER_ACTION;
       localStorage.setItem("userXP", currentXP);
+      localStorage.setItem("lastActionDate", today);
       cardTitle.innerText = `\"${action}\" 완료!`;
       cardMessage.innerText = feedbackMessages[emotion];
       xpBar.innerText = `🎉 누적 XP: ${currentXP}`;
@@ -151,10 +160,7 @@
     }
 
     function resetAll() {
-      pageTitle.innerText = "오늘 당신의 감정은 어떤가요?";
-      feedbackCard.style.display = "none";
-      emotionGrid.style.display = "grid";
-      actionGrid.style.display = "none";
+      location.reload();
     }
   </script>
 </body>
