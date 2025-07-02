@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ADHD 실행 피드백</title>
   <style>
     body {
       margin: 0;
-      padding: 0;
       font-family: "Segoe UI", sans-serif;
       background-color: #fefefe;
       display: flex;
@@ -17,24 +16,21 @@
       min-height: 100vh;
       padding: 2rem;
     }
-
     h1 {
       font-size: 1.4rem;
-      text-align: center;
       margin-bottom: 1.5rem;
+      text-align: center;
     }
-
-    .emotion-grid {
+    .emotion-grid, .action-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
       gap: 1rem;
       width: 100%;
-      max-width: 400px;
+      max-width: 500px;
       margin-bottom: 2rem;
     }
-
-    .emotion-btn {
-      font-size: 1.2rem;
+    button {
+      font-size: 1rem;
       padding: 0.7rem 1rem;
       background-color: #eee;
       border: none;
@@ -42,65 +38,64 @@
       cursor: pointer;
       transition: background-color 0.2s;
     }
-
-    .emotion-btn:hover {
+    button:hover {
       background-color: #ddd;
     }
-
     .card {
       display: none;
       background-color: #ffffff;
       padding: 2rem;
       border-radius: 1.5rem;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      max-width: 350px;
+      max-width: 400px;
       text-align: center;
     }
-
     .card h2 {
-      font-size: 1.6rem;
+      font-size: 1.5rem;
       margin-bottom: 1rem;
     }
-
     .card p {
       font-size: 1.1rem;
-      line-height: 1.6;
+      line-height: 1.5;
     }
-
-    .reset-btn {
-      margin-top: 2rem;
-      background-color: #e0e0e0;
-      border: none;
-      padding: 0.6rem 1.2rem;
-      border-radius: 1rem;
-      cursor: pointer;
+    .xp-bar {
+      margin-top: 1.2rem;
       font-size: 1rem;
-    }
-
-    .reset-btn:hover {
-      background-color: #ccc;
+      color: #555;
     }
   </style>
 </head>
 <body>
   <h1>오늘 당신의 감정은 어떤가요?</h1>
   <div class="emotion-grid" id="emotionGrid">
-    <button class="emotion-btn" data-emotion="무기력">😐 무기력</button>
-    <button class="emotion-btn" data-emotion="불안">😣 불안</button>
-    <button class="emotion-btn" data-emotion="짜증">😡 짜증</button>
-    <button class="emotion-btn" data-emotion="평온">😊 평온</button>
-    <button class="emotion-btn" data-emotion="들뜸">🤩 들뜸</button>
-    <button class="emotion-btn" data-emotion="피곤함">💤 피곤함</button>
+    <button data-emotion="무기력">😐 무기력</button>
+    <button data-emotion="불안">😣 불안</button>
+    <button data-emotion="짜증">😡 짜증</button>
+    <button data-emotion="평온">😊 평온</button>
+    <button data-emotion="들뜸">🤩 들뜸</button>
+    <button data-emotion="피곤함">💤 피곤함</button>
   </div>
+
+  <div class="action-grid" id="actionGrid" style="display:none;"></div>
 
   <div class="card" id="feedbackCard">
     <h2 id="cardTitle"></h2>
     <p id="cardMessage"></p>
-    <button class="reset-btn" onclick="resetPage()">다시 선택하기</button>
+    <div class="xp-bar" id="xpBar"></div>
+    <button onclick="resetAll()">처음으로</button>
   </div>
 
   <script>
-    const messages = {
+    const actionCards = {
+      "무기력": ["5분간 청소하기", "책 1페이지 읽기", "밖에 나가 바람 쐬기"],
+      "불안": ["종이에 걱정 적기", "심호흡 10회", "음악 듣기"],
+      "짜증": ["팔 벌려 기지개", "찬물 세수", "종이에 감정 쓰기"],
+      "평온": ["따뜻한 차 마시기", "좋은 기억 적기", "안부 전하기"],
+      "들뜸": ["할 일 목록 쓰기", "산책하며 정리하기", "책상 정돈하기"],
+      "피곤함": ["10분 스트레칭", "눈 감고 1분 숨 고르기", "손/발 마사지"]
+    };
+
+    const feedbackMessages = {
       "무기력": "그래도 해냈다는 게 대단해요. 당신은 움직였어요.",
       "불안": "불안 속에서도 한 걸음, 당신은 용감해요.",
       "짜증": "짜증을 이기고 실행한 당신, 진짜 강해요.",
@@ -109,25 +104,53 @@
       "피곤함": "피곤한데도 해낸 당신, 충분히 자랑스러워요."
     };
 
-    const emotionButtons = document.querySelectorAll(".emotion-btn");
-    const card = document.getElementById("feedbackCard");
-    const grid = document.getElementById("emotionGrid");
+    const XP_PER_ACTION = 10;
+    let selectedEmotion = "";
+
+    const emotionGrid = document.getElementById("emotionGrid");
+    const actionGrid = document.getElementById("actionGrid");
+    const feedbackCard = document.getElementById("feedbackCard");
     const cardTitle = document.getElementById("cardTitle");
     const cardMessage = document.getElementById("cardMessage");
+    const xpBar = document.getElementById("xpBar");
 
-    emotionButtons.forEach(button => {
+    document.querySelectorAll("#emotionGrid button").forEach(button => {
       button.addEventListener("click", () => {
-        const emotion = button.dataset.emotion;
-        cardTitle.innerText = `${emotion} 상태에서 실행 완료!`;
-        cardMessage.innerText = messages[emotion];
-        grid.style.display = "none";
-        card.style.display = "block";
+        selectedEmotion = button.dataset.emotion;
+        showActionCards(selectedEmotion);
       });
     });
 
-    function resetPage() {
-      card.style.display = "none";
-      grid.style.display = "grid";
+    function showActionCards(emotion) {
+      emotionGrid.style.display = "none";
+      actionGrid.innerHTML = "";
+      actionCards[emotion].forEach(action => {
+        const btn = document.createElement("button");
+        btn.textContent = action;
+        btn.onclick = () => showFeedback(emotion, action);
+        actionGrid.appendChild(btn);
+      });
+      actionGrid.style.display = "grid";
+    }
+
+    function showFeedback(emotion, action) {
+      actionGrid.style.display = "none";
+      const currentXP = getXP() + XP_PER_ACTION;
+      localStorage.setItem("userXP", currentXP);
+      cardTitle.innerText = `"${action}" 완료!`;
+      cardMessage.innerText = feedbackMessages[emotion];
+      xpBar.innerText = `🎉 누적 XP: ${currentXP}`;
+      feedbackCard.style.display = "block";
+    }
+
+    function getXP() {
+      return parseInt(localStorage.getItem("userXP")) || 0;
+    }
+
+    function resetAll() {
+      feedbackCard.style.display = "none";
+      emotionGrid.style.display = "grid";
+      actionGrid.style.display = "none";
     }
   </script>
 </body>
