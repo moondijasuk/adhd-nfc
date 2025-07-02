@@ -82,7 +82,7 @@
     <h2 id="cardTitle"></h2>
     <p id="cardMessage"></p>
     <div class="xp-bar" id="xpBar"></div>
-    <button onclick="resetAll()">처음으로</button>
+    <button onclick="goToPlanner()">📘 플래너로 돌아가기</button>
   </div>
 
   <script>
@@ -144,6 +144,7 @@
     }
 
     function showFeedback(emotion, action) {
+      if (localStorage.getItem("lastActionDate") === today) return; // 중복 실행 방지
       pageTitle.innerText = `피드백 메시지`;
       actionGrid.style.display = "none";
       const currentXP = getXP() + XP_PER_ACTION;
@@ -159,8 +160,9 @@
       return parseInt(localStorage.getItem("userXP")) || 0;
     }
 
-    function resetAll() {
-      location.reload();
+    function goToPlanner() {
+      alert("플래너 페이지로 연결됩니다! (여기에 URL을 연결하세요)");
+      // location.href = "플래너 페이지 링크"; // 실제 URL로 변경 가능
     }
   </script>
 </body>
