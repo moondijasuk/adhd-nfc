@@ -1020,7 +1020,821 @@
             <div class="card" style="max-width: 600px; margin: 0 auto">
               <div class="warm-message" style="margin: 0 0 2rem 0">
                 <h3>🌱 당신의 나무가 성장했어요!</h3>
-                <p>"작은 실행 하나가</p>
+                <p>"작은 실행 하나가 큰 변화의 시작입니다"</p>
+              </div>
+              <div class="progress-container">
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 75%"></div>
+                </div>
+                <p
+                  style="
+                    text-align: center;
+                    color: #667eea;
+                    font-weight: 600;
+                    margin-top: 1rem;
+                  "
+                >
+                  다음 레벨까지 25 XP 남았어요!
+                </p>
+              </div>
+
+              <button
+                class="btn btn-primary btn-full"
+                style="margin-top: 2rem"
+                onclick="showScreen('record')"
+              >
+                기록하러 가기 →
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Record Screen -->
+        <div id="record-screen" class="screen">
+          <div class="card-grid">
+            <div class="card">
+              <div class="warm-message" style="margin: 0 0 2rem 0">
+                <h3>📅 <span id="current-date">오늘</span></h3>
+                <p>"오늘 당신이 해낸 작은 실행들을 기록해보세요"</p>
+              </div>
+
+              <div class="form-group">
+                <label
+                  class="form-label"
+                  style="font-size: 1.1rem; margin-bottom: 1rem"
+                  >✨ 오늘 실행한 루틴 (최대 3개)</label
+                >
+                <div class="checkbox-group">
+                  <div
+                    class="checkbox-item"
+                    onclick="toggleRoutine(this, '물 마시기')"
+                  >
+                    <input type="checkbox" />
+                    <span>💧 물 마시기 - 몸에게 주는 작은 선물</span>
+                  </div>
+                  <div
+                    class="checkbox-item"
+                    onclick="toggleRoutine(this, '정리하기')"
+                  >
+                    <input type="checkbox" />
+                    <span>🧹 정리하기 - 마음도 함께 정돈돼요</span>
+                  </div>
+                  <div
+                    class="checkbox-item"
+                    onclick="toggleRoutine(this, '걷기')"
+                  >
+                    <input type="checkbox" />
+                    <span>🚶 걷기 - 생각이 맑아지는 시간</span>
+                  </div>
+                  <div
+                    class="checkbox-item"
+                    onclick="toggleRoutine(this, '명상하기')"
+                  >
+                    <input type="checkbox" />
+                    <span>🧘 명상하기 - 잠시 멈춤의 여유</span>
+                  </div>
+                  <div
+                    class="checkbox-item"
+                    onclick="toggleRoutine(this, '계획 세우기')"
+                  >
+                    <input type="checkbox" />
+                    <span>📋 계획 세우기 - 내일을 위한 준비</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group" style="margin: 3rem 0">
+                <label
+                  class="form-label"
+                  style="font-size: 1.1rem; margin-bottom: 1rem"
+                  >💭 지금 내 마음은...</label
+                >
+                <div class="emotion-buttons">
+                  <button
+                    class="emotion-btn"
+                    onclick="selectEmotion(this, '무기력')"
+                    data-color="#9ca3af"
+                    title="무기력함"
+                  >
+                    😔
+                  </button>
+                  <button
+                    class="emotion-btn"
+                    onclick="selectEmotion(this, '평온')"
+                    data-color="#48bb78"
+                    title="평온함"
+                  >
+                    😌
+                  </button>
+                  <button
+                    class="emotion-btn"
+                    onclick="selectEmotion(this, '기쁨')"
+                    data-color="#fbbf24"
+                    title="기쁨"
+                  >
+                    😊
+                  </button>
+                  <button
+                    class="emotion-btn"
+                    onclick="selectEmotion(this, '불안')"
+                    data-color="#3b82f6"
+                    title="불안함"
+                  >
+                    😰
+                  </button>
+                  <button
+                    class="emotion-btn"
+                    onclick="selectEmotion(this, '집중')"
+                    data-color="#059669"
+                    title="집중됨"
+                  >
+                    🧘
+                  </button>
+                </div>
+                <p
+                  id="emotion-feedback"
+                  style="
+                    text-align: center;
+                    margin-top: 1rem;
+                    font-style: italic;
+                    color: #667eea;
+                    opacity: 0;
+                    transition: all 0.4s ease;
+                  "
+                ></p>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" style="font-size: 1.1rem"
+                  >💝 오늘 나에게 한 마디</label
+                >
+                <textarea
+                  class="textarea"
+                  rows="3"
+                  placeholder="오늘 내가 해낸 것 중 가장 괜찮았던 것은..."
+                  onchange="updateReflection(this.value)"
+                ></textarea>
+              </div>
+
+              <div class="stats-grid" style="margin: 2rem 0">
+                <div class="stat-card">
+                  <div class="stat-icon">✨</div>
+                  <div class="stat-value" id="total-xp">325</div>
+                  <div class="stat-label">총 경험치</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-icon">🪙</div>
+                  <div class="stat-value" id="current-coins">45</div>
+                  <div class="stat-label">보유 코인</div>
+                </div>
+              </div>
+
+              <div class="warm-message">
+                <h3>🌟 오늘도 잘 하고 있어요!</h3>
+                <p>작은 실행들이 모여 큰 변화를 만들어냅니다</p>
+              </div>
+
+              <button
+                class="btn btn-secondary btn-full"
+                onclick="showScreen('market')"
+                style="margin-top: 1rem"
+              >
+                🎁 나를 위한 선물 보러가기
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tree Screen -->
+        <div id="tree-screen" class="screen">
+          <div class="card-grid">
+            <div class="card" style="text-align: center">
+              <div class="warm-message" style="margin: 0 0 2rem 0">
+                <h3>🌳 나만의 성장 나무</h3>
+                <p>"매일의 작은 실행이 이 나무를 키워왔어요"</p>
+              </div>
+
+              <div style="position: relative; margin: 2rem 0">
+                <div
+                  style="font-size: 8rem; margin-bottom: 1rem"
+                  class="tree-visual"
+                >
+                  🌲
+                </div>
+                <div
+                  style="
+                    position: absolute;
+                    top: -10px;
+                    right: 15%;
+                    background: linear-gradient(135deg, #ffd700, #ffa500);
+                    color: white;
+                    padding: 0.8rem 1.2rem;
+                    border-radius: 1.5rem;
+                    font-weight: bold;
+                    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+                  "
+                >
+                  Level <span id="tree-level">5</span>
+                </div>
+              </div>
+
+              <div class="progress-container" style="margin: 2rem 0">
+                <p
+                  style="
+                    text-align: center;
+                    margin-bottom: 1rem;
+                    font-weight: 600;
+                    color: #4a5568;
+                  "
+                >
+                  성장 진행도
+                </p>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 78%"></div>
+                </div>
+                <p
+                  style="
+                    text-align: center;
+                    color: #667eea;
+                    font-weight: 500;
+                    margin-top: 0.5rem;
+                  "
+                >
+                  다음 단계까지 22%
+                </p>
+              </div>
+
+              <div
+                class="card"
+                style="
+                  background: linear-gradient(135deg, #ebf8ff 0%, #bee3f8 100%);
+                  border: 2px solid rgba(66, 153, 225, 0.2);
+                  margin: 2rem 0;
+                "
+              >
+                <h3 style="margin-bottom: 1.5rem; color: #2b6cb0">
+                  📖 성장 일지
+                </h3>
+                <div style="text-align: left; color: #2d3748; line-height: 1.8">
+                  <div
+                    style="
+                      margin: 1rem 0;
+                      padding: 1rem;
+                      background: rgba(255, 255, 255, 0.7);
+                      border-radius: 0.5rem;
+                    "
+                  >
+                    <strong>📅 오늘:</strong> XP +15, 새로운 잎이 세 개 더! 🌿
+                  </div>
+                  <div
+                    style="
+                      margin: 1rem 0;
+                      padding: 1rem;
+                      background: rgba(255, 255, 255, 0.7);
+                      border-radius: 0.5rem;
+                    "
+                  >
+                    <strong>📅 어제:</strong> XP +20, 줄기가 한층 더
+                    튼튼해졌어요 🌿
+                  </div>
+                  <div
+                    style="
+                      margin: 1rem 0;
+                      padding: 1rem;
+                      background: rgba(255, 255, 255, 0.7);
+                      border-radius: 0.5rem;
+                    "
+                  >
+                    <strong>📅 그제:</strong> XP +10, 뿌리가 더 깊이 내려갔네요
+                    🌱
+                  </div>
+                  <div
+                    style="
+                      margin: 1rem 0;
+                      padding: 1rem;
+                      background: rgba(255, 255, 255, 0.7);
+                      border-radius: 0.5rem;
+                    "
+                  >
+                    <strong>📅 3일 전:</strong> XP +25, 첫 번째 큰 가지가
+                    자랐어요! 🌳
+                  </div>
+                </div>
+              </div>
+
+              <div class="stats-grid">
+                <div
+                  class="stat-card"
+                  style="
+                    background: linear-gradient(135deg, #f0fff4, #c6f6d5);
+                    border-color: rgba(72, 187, 120, 0.3);
+                  "
+                >
+                  <div class="stat-icon">📈</div>
+                  <div class="stat-value" style="color: #38a169">82%</div>
+                  <div class="stat-label">성공률</div>
+                </div>
+                <div
+                  class="stat-card"
+                  style="
+                    background: linear-gradient(135deg, #fffaf0, #fed7aa);
+                    border-color: rgba(217, 119, 6, 0.3);
+                  "
+                >
+                  <div class="stat-icon">🔥</div>
+                  <div class="stat-value" style="color: #d69e2e">7일</div>
+                  <div class="stat-label">연속 실행</div>
+                </div>
+                <div
+                  class="stat-card"
+                  style="
+                    background: linear-gradient(135deg, #f7fafc, #e2e8f0);
+                    border-color: rgba(102, 126, 234, 0.3);
+                  "
+                >
+                  <div class="stat-icon">🏆</div>
+                  <div class="stat-value" style="color: #667eea">15</div>
+                  <div class="stat-label">획득 뱃지</div>
+                </div>
+                <div
+                  class="stat-card"
+                  style="
+                    background: linear-gradient(135deg, #fff5f5, #fed7d7);
+                    border-color: rgba(245, 101, 101, 0.3);
+                  "
+                >
+                  <div class="stat-icon">❤️</div>
+                  <div class="stat-value" style="color: #e53e3e">428</div>
+                  <div class="stat-label">총 실행</div>
+                </div>
+              </div>
+
+              <div class="warm-message">
+                <h3>🌟 성장하는 모습이 아름다워요</h3>
+                <p>매일매일 조금씩, 당신만의 속도로 자라고 있어요</p>
+              </div>
+
+              <div
+                style="
+                  display: grid;
+                  grid-template-columns: 1fr 1fr;
+                  gap: 1rem;
+                  margin-top: 2rem;
+                "
+              >
+                <button class="btn btn-primary" onclick="showScreen('record')">
+                  🌱 오늘도 키우기
+                </button>
+                <button
+                  class="btn btn-secondary"
+                  onclick="showScreen('market')"
+                >
+                  🎁 보상 받기
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Market Screen -->
+        <div id="market-screen" class="screen">
+          <div class="card">
+            <div class="warm-message" style="margin: 0 0 3rem 0">
+              <h3>🎁 나를 위한 작은 선물</h3>
+              <p>"열심히 쌓은 코인으로 자신에게 보상을 주세요"</p>
+              <div
+                style="
+                  background: linear-gradient(135deg, #ffd700, #ffa500);
+                  color: white;
+                  padding: 1rem 2rem;
+                  border-radius: 2rem;
+                  display: inline-block;
+                  margin-top: 1rem;
+                  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+                "
+              >
+                ✨ 보유 코인:
+                <span
+                  id="market-coins"
+                  style="font-weight: bold; font-size: 1.2rem"
+                  >45</span
+                >개
+              </div>
+            </div>
+
+            <div style="text-align: center; margin-bottom: 3rem">
+              <h3 style="color: #667eea; margin-bottom: 1rem">
+                🏪 ADHD 친화 아이템
+              </h3>
+              <p style="color: #718096">당신의 일상을 도와줄 특별한 아이템들</p>
+            </div>
+
+            <div class="market-grid">
+              <div class="market-item" data-price="30">
+                <div class="item-icon">⏰</div>
+                <div class="item-name">포모도로 타이머</div>
+                <p style="font-size: 0.9rem; color: #718096; margin: 0.5rem 0">
+                  집중력 향상을 위한 시간 관리 도구
+                </p>
+                <div class="item-price">🪙 30 코인</div>
+                <button
+                  class="btn btn-primary btn-full"
+                  onclick="purchaseItem('포모도로 타이머', 30, this)"
+                >
+                  구매하기
+                </button>
+              </div>
+
+              <div class="market-item" data-price="15">
+                <div class="item-icon">🍬</div>
+                <div class="item-name">집중 껌</div>
+                <p style="font-size: 0.9rem; color: #718096; margin: 0.5rem 0">
+                  집중력을 높여주는 특별한 껌
+                </p>
+                <div class="item-price">🪙 15 코인</div>
+                <button
+                  class="btn btn-primary btn-full"
+                  onclick="purchaseItem('집중 껌', 15, this)"
+                >
+                  구매하기
+                </button>
+              </div>
+
+              <div class="market-item" data-price="25">
+                <div class="item-icon">🔕</div>
+                <div class="item-name">무소음 알람</div>
+                <p style="font-size: 0.9rem; color: #718096; margin: 0.5rem 0">
+                  부드러운 진동으로 깨우는 알람
+                </p>
+                <div class="item-price">🪙 25 코인</div>
+                <button
+                  class="btn btn-primary btn-full"
+                  onclick="purchaseItem('무소음 알람', 25, this)"
+                >
+                  구매하기
+                </button>
+              </div>
+
+              <div class="market-item" data-price="50">
+                <div class="item-icon">☕</div>
+                <div class="item-name">카페 기프티콘</div>
+                <p style="font-size: 0.9rem; color: #718096; margin: 0.5rem 0">
+                  따뜻한 음료로 나 자신에게 선물
+                </p>
+                <div class="item-price">🪙 50 코인</div>
+                <button
+                  class="btn btn-secondary btn-full"
+                  onclick="purchaseItem('카페 기프티콘', 50, this)"
+                >
+                  구매하기
+                </button>
+              </div>
+
+              <div class="market-item" data-price="100">
+                <div class="item-icon">💬</div>
+                <div class="item-name">전문가 상담 할인</div>
+                <p style="font-size: 0.9rem; color: #718096; margin: 0.5rem 0">
+                  ADHD 전문가와의 1:1 상담 기회
+                </p>
+                <div class="item-price">🪙 100 코인</div>
+                <button
+                  class="btn btn-secondary btn-full"
+                  onclick="purchaseItem('전문가 상담 할인', 100, this)"
+                >
+                  구매하기
+                </button>
+              </div>
+
+              <div class="market-item" data-price="40">
+                <div class="item-icon">🎁</div>
+                <div class="item-name">ADHD 굿즈</div>
+                <p style="font-size: 0.9rem; color: #718096; margin: 0.5rem 0">
+                  일상을 편리하게 도와주는 굿즈
+                </p>
+                <div class="item-price">🪙 40 코인</div>
+                <button
+                  class="btn btn-primary btn-full"
+                  onclick="purchaseItem('ADHD 굿즈', 40, this)"
+                >
+                  구매하기
+                </button>
+              </div>
+            </div>
+
+            <div
+              class="card"
+              style="
+                background: linear-gradient(135deg, #ebf4ff 0%, #c3dafe 100%);
+                border: 2px solid rgba(59, 130, 246, 0.2);
+                margin-top: 3rem;
+                text-align: center;
+              "
+            >
+              <h3 style="margin-bottom: 1rem; color: #1e40af">
+                🤝 특별 파트너십
+              </h3>
+              <p style="color: #1e40af; margin-bottom: 1rem">
+                ADHD 커뮤니티와 함께하는 특별한 혜택들
+              </p>
+              <div
+                style="
+                  display: grid;
+                  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                  gap: 1rem;
+                  margin-top: 2rem;
+                "
+              >
+                <div
+                  style="
+                    background: rgba(255, 255, 255, 0.8);
+                    padding: 1rem;
+                    border-radius: 1rem;
+                  "
+                >
+                  <div style="font-size: 2rem; margin-bottom: 0.5rem">📚</div>
+                  <p style="font-size: 0.9rem; color: #374151">
+                    ADHD 학습 자료
+                  </p>
+                </div>
+                <div
+                  style="
+                    background: rgba(255, 255, 255, 0.8);
+                    padding: 1rem;
+                    border-radius: 1rem;
+                  "
+                >
+                  <div style="font-size: 2rem; margin-bottom: 0.5rem">👥</div>
+                  <p style="font-size: 0.9rem; color: #374151">커뮤니티 모임</p>
+                </div>
+                <div
+                  style="
+                    background: rgba(255, 255, 255, 0.8);
+                    padding: 1rem;
+                    border-radius: 1rem;
+                  "
+                >
+                  <div style="font-size: 2rem; margin-bottom: 0.5rem">🏥</div>
+                  <p style="font-size: 0.9rem; color: #374151">
+                    병원 연계 서비스
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Profile Screen -->
+        <div id="profile-screen" class="screen">
+          <div class="card-grid">
+            <div class="card" style="text-align: center">
+              <div
+                style="
+                  width: 120px;
+                  height: 120px;
+                  background: linear-gradient(135deg, #667eea, #764ba2);
+                  border-radius: 50%;
+                  margin: 0 auto 2rem;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  font-size: 4rem;
+                  color: white;
+                  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+                "
+              >
+                👤
+              </div>
+
+              <div class="warm-message" style="margin: 0 0 2rem 0">
+                <h3>💫 나의 성장 여정</h3>
+                <p>"당신만의 특별한 이야기가 쌓여가고 있어요"</p>
+              </div>
+
+              <div class="stats-grid" style="margin: 2rem 0">
+                <div
+                  class="stat-card"
+                  style="
+                    background: linear-gradient(135deg, #fff7ed, #fed7aa);
+                    border-color: rgba(217, 119, 6, 0.3);
+                  "
+                >
+                  <div class="stat-icon">✨</div>
+                  <div
+                    class="stat-value"
+                    style="color: #d69e2e"
+                    id="profile-total-xp"
+                  >
+                    325
+                  </div>
+                  <div class="stat-label">총 경험치</div>
+                </div>
+                <div
+                  class="stat-card"
+                  style="
+                    background: linear-gradient(135deg, #fffbeb, #fef3c7);
+                    border-color: rgba(245, 158, 11, 0.3);
+                  "
+                >
+                  <div class="stat-icon">🪙</div>
+                  <div
+                    class="stat-value"
+                    style="color: #f59e0b"
+                    id="profile-coins"
+                  >
+                    45
+                  </div>
+                  <div class="stat-label">보유 코인</div>
+                </div>
+                <div
+                  class="stat-card"
+                  style="
+                    background: linear-gradient(135deg, #f0fdf4, #c6f6d5);
+                    border-color: rgba(72, 187, 120, 0.3);
+                  "
+                >
+                  <div class="stat-icon">🌱</div>
+                  <div class="stat-value" style="color: #38a169">5</div>
+                  <div class="stat-label">나무 레벨</div>
+                </div>
+                <div
+                  class="stat-card"
+                  style="
+                    background: linear-gradient(135deg, #fdf2f8, #fce7f3);
+                    border-color: rgba(236, 72, 153, 0.3);
+                  "
+                >
+                  <div class="stat-icon">📅</div>
+                  <div class="stat-value" style="color: #ec4899">28</div>
+                  <div class="stat-label">사용 일수</div>
+                </div>
+              </div>
+
+              <div
+                class="card"
+                style="
+                  background: linear-gradient(135deg, #fef7ed 0%, #fdd8b5 100%);
+                  border: 2px solid rgba(251, 191, 36, 0.2);
+                  margin: 2rem 0;
+                "
+              >
+                <h3 style="margin-bottom: 1.5rem; color: #92400e">
+                  🏆 획득 뱃지
+                </h3>
+                <div class="badges">
+                  <span class="badge badge-gold">🗓️ 월요 전사</span>
+                  <span class="badge badge-green">⚡ 5일 연속 달성</span>
+                  <span class="badge badge-purple">🌱 새싹 키우기</span>
+                  <span class="badge badge-gold">🔥 열정 실행자</span>
+                  <span class="badge badge-green">💧 수분 관리왕</span>
+                  <span class="badge badge-purple">🧹 정리 마스터</span>
+                </div>
+              </div>
+
+              <div
+                class="card"
+                style="
+                  background: linear-gradient(135deg, #ebf8ff 0%, #bee3f8 100%);
+                  border: 2px solid rgba(59, 130, 246, 0.2);
+                "
+              >
+                <h3 style="margin-bottom: 1.5rem; color: #1e40af">
+                  💭 이번 달 감정 여행
+                </h3>
+                <div
+                  style="
+                    display: grid;
+                    grid-template-columns: repeat(5, 1fr);
+                    gap: 1rem;
+                    margin: 2rem 0;
+                  "
+                >
+                  <div style="text-align: center">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem">😔</div>
+                    <div style="font-size: 0.8rem; color: #4a5568">
+                      무기력 12%
+                    </div>
+                  </div>
+                  <div style="text-align: center">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem">😌</div>
+                    <div style="font-size: 0.8rem; color: #4a5568">
+                      평온 35%
+                    </div>
+                  </div>
+                  <div style="text-align: center">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem">😊</div>
+                    <div style="font-size: 0.8rem; color: #4a5568">
+                      기쁨 28%
+                    </div>
+                  </div>
+                  <div style="text-align: center">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem">😰</div>
+                    <div style="font-size: 0.8rem; color: #4a5568">
+                      불안 15%
+                    </div>
+                  </div>
+                  <div style="text-align: center">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem">🧘</div>
+                    <div style="font-size: 0.8rem; color: #4a5568">
+                      집중 10%
+                    </div>
+                  </div>
+                </div>
+                <div class="progress-container">
+                  <p
+                    style="
+                      text-align: center;
+                      margin-bottom: 1rem;
+                      font-weight: 600;
+                      color: #1e40af;
+                    "
+                  >
+                    실행 성공률
+                  </p>
+                  <div class="progress-bar">
+                    <div class="progress-fill" style="width: 82%"></div>
+                  </div>
+                  <p
+                    style="
+                      text-align: center;
+                      color: #667eea;
+                      font-weight: 500;
+                      margin-top: 0.5rem;
+                    "
+                  >
+                    82% - 훌륭해요!
+                  </p>
+                </div>
+              </div>
+
+              <div
+                class="card"
+                style="
+                  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+                  border: 2px solid rgba(34, 197, 94, 0.2);
+                "
+              >
+                <h3 style="margin-bottom: 1rem; color: #166534">
+                  🧑‍⚕️ ADHD 케어 서비스
+                </h3>
+                <p
+                  style="color: #166534; margin-bottom: 2rem; line-height: 1.7"
+                >
+                  전문가와 함께하는 맞춤형 관리 프로그램
+                </p>
+                <div
+                  style="
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                    gap: 1rem;
+                    margin-bottom: 2rem;
+                  "
+                >
+                  <div
+                    style="
+                      background: rgba(255, 255, 255, 0.8);
+                      padding: 1.5rem;
+                      border-radius: 1rem;
+                      text-align: center;
+                    "
+                  >
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem">👨‍⚕️</div>
+                    <h4 style="color: #166534; margin-bottom: 0.5rem">
+                      1:1 상담
+                    </h4>
+                    <p style="font-size: 0.9rem; color: #374151">
+                      전문가 맞춤 상담
+                    </p>
+                  </div>
+                  <div
+                    style="
+                      background: rgba(255, 255, 255, 0.8);
+                      padding: 1.5rem;
+                      border-radius: 1rem;
+                      text-align: center;
+                    "
+                  >
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem">👥</div>
+                    <h4 style="color: #166534; margin-bottom: 0.5rem">
+                      그룹 프로그램
+                    </h4>
+                    <p style="font-size: 0.9rem; color: #374151">
+                      동반자와 함께
+                    </p>
+                  </div>
+                  <div
+                    style="
+                      background: rgba(255, 255, 255, 0.8);
+                      padding: 1.5rem;
+                      border-radius: 1rem;
+                      text-align: center;
+                    "
+                  >
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem">📖</div>
+                    <h4 style="color: #166534; margin-bottom: 0.5rem">
+                      학습 자료
+                    </h4>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
