@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>기록 - ADHD 루틴 관리</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1>🌱 나의 작은 성장</h1>
+        <p>지금 당신이 한 작은 걸음이, 내일의 큰 변화가 됩니다</p>
+      </div>
+    </header>
+
+    <nav>
+      <div class="container">
+        <a href="reward.html">🎉 보상</a>
+        <a href="record.html" class="active">✏️ 기록</a>
+        <a href="tree.html">🌳 성장</a>
+        <a href="market.html">🎁 마켓</a>
+        <a href="profile.html">💫 프로필</a>
+      </div>
+    </nav>
+
+    <main>
+      <div class="container">
+        <div class="card">
+          <div class="warm-message">
+            <h3>📅 <span id="current-date">2025년 1월 4일 토요일</span></h3>
+            <p>오늘 당신이 해낸 작은 실행들을 기록해보세요</p>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">✨ 오늘 실행한 루틴 (최대 3개)</label>
+            <div class="checkbox-group">
+              <div class="checkbox-item">
+                <input type="checkbox" id="routine1" />
+                <label for="routine1"
+                  >💧 물 마시기 - 몸에게 주는 작은 선물</label
+                >
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="routine2" />
+                <label for="routine2">🧹 정리하기 - 마음도 함께 정돈돼요</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="routine3" />
+                <label for="routine3">🚶 걷기 - 생각이 맑아지는 시간</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="routine4" />
+                <label for="routine4">🧘 명상하기 - 잠시 멈춤의 여유</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="routine5" />
+                <label for="routine5">📋 계획 세우기 - 내일을 위한 준비</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">💭 지금 내 마음은...</label>
+            <div class="emotion-buttons">
+              <button class="emotion-btn" title="무기력함">😔</button>
+              <button class="emotion-btn" title="평온함">😌</button>
+              <button class="emotion-btn" title="기쁨">😊</button>
+              <button class="emotion-btn" title="불안함">😰</button>
+              <button class="emotion-btn" title="집중됨">🧘</button>
+            </div>
+            <p id="emotion-feedback" class="emotion-feedback"></p>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">💝 오늘 나에게 한 마디</label>
+            <textarea
+              class="textarea"
+              rows="3"
+              placeholder="오늘 내가 해낸 것 중 가장 괜찮았던 것은..."
+            ></textarea>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon">✨</div>
+              <div class="stat-value">325</div>
+              <div class="stat-label">총 경험치</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">💰</div>
+              <div class="stat-value">45</div>
+              <div class="stat-label">보유 코인</div>
+            </div>
+          </div>
+
+          <div class="warm-message">
+            <h3>🌟 오늘도 잘 하고 있어요!</h3>
+            <p>작은 실행들이 모여 큰 변화를 만들어냅니다</p>
+          </div>
+
+          <a href="market.html" class="btn btn-secondary btn-full"
+            >🎁 나를 위한 선물 보러가기</a
+          >
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
